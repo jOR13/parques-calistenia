@@ -65,18 +65,9 @@ function ParkCard({ park }) {
 
         {/* Days chips */}
         <div className="days-container">
-          {park.days.slice(0, 4).map((day, index) => (
+          {park.days.map((day, index) => (
             <span key={index} className="day-tag">{day}</span>
           ))}
-          {park.days.length > 4 && (
-            <span className="day-tag" style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              color: 'rgba(255, 255, 255, 0.6)'
-            }}>
-              +{park.days.length - 4} más
-            </span>
-          )}
         </div>
 
         {/* Action buttons */}

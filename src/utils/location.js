@@ -73,6 +73,36 @@ export async function getAddressFromCoords(lat, lng) {
   }
 }
 
+// Get coordinates from address using geocoding
+export async function getCoordsFromAddress(address) {
+  try {
+    // Add Ciudad Juárez, Chihuahua to the search for better accuracy
+    const searchQuery = `${address}, Ciudad Juárez, Chihuahua, México`;
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchQuery)}&format=json&limit=1&accept-language=es`
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch coordinates');
+    }
+    
+    const data = await response.json();
+    
+    if (data && data.length > 0) {
+      const result = data[0];
+      return {
+        lat: parseFloat(result.lat),
+        lng: parseFloat(result.lon)
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error getting coordinates:', error);
+    return null;
+  }
+}
+
 // Find nearest parks to user location
 export function findNearestParks(userLocation, parks, limit = 5) {
   const parksWithDistance = parks.map(park => ({
